@@ -15,9 +15,23 @@
 
       <Box>
         <template #header>
-          Offer
+          Monthly payment
         </template>
         Make an offer
+        <div>
+          <label class="label">Interest rate ({{ InterstRate }}%)</label>
+          <input v-model.number="InterstRate" type="range" min="0.1" max="30" step="0.1" class="bg-gray-200 w-full h-4 rounded-lg appearance-none cursor-pointer">
+
+          <label class="label">Duration ({{ Duration }} years)</label>
+          <input v-model.number="Duration" class="bg-gray-200 w-full h-4 rounded-lg appearance-none cursor-pointer" type="range">
+
+          <div class="text-gray-600 mt-2">
+              <div class="text-gray-400">Your Monthly payment</div>
+                <Price :price="MonthlyPayment" class="text-3xl" />
+              
+          </div>
+
+        </div>
       </Box>
     </div>
   </div>
@@ -27,10 +41,26 @@
 import ListingAddress from '@/Components/ListingAddress.vue'
 import ListingSpace from '@/Components/ListingSpace.vue'
 import Price from '@/Components/Price.vue'
-import Box from '../../Components/UI/Box.vue'
-import MainLayout from '@/Layouts/MainLayout.vue';
-defineProps({
+import Box from '@/Components/UI/Box.vue'
+import MainLayout from '@/Layouts/MainLayout.vue'
+import {ref,computed} from 'vue'
+
+
+const InterstRate = ref(2.5)
+const Duration = ref(2.5)
+
+const props = defineProps({
   listing: Object,
+})
+
+const MonthlyPayment = computed(() => {
+  const Principal = props.listing.price;
+  const MonthlyInterest = InterstRate.value/100/12;
+  const NumberOfPayedMonthes = Duration.value * 12;
+
+
+  return Principal * MonthlyInterest * (Math.pow(1+MonthlyInterest,NumberOfPayedMonthes)) / (Math.pow(1+MonthlyInterest,NumberOfPayedMonthes)-1);
+
 })
 </script>
 
