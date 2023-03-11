@@ -44,7 +44,7 @@ import Price from '@/Components/Price.vue'
 import Box from '@/Components/UI/Box.vue'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import {ref} from 'vue'
-import { useMonthlyPayment } from '@/Composable/useMonthlyPayment'
+import  { useMonthlyPayment }  from '@/Composable/useMonthlyPayment'
 
 
 const InterstRate = ref(2.5)
@@ -54,7 +54,9 @@ const props = defineProps({
   listing: Object,
 })
 
-const { MonthlyPayment } = useMonthlyPayment(props.listing.price, InterstRate, Duration);
+const { MonthlyPayment } = useMonthlyPayment(
+  props.listing.price, InterstRate, Duration,
+  )
 </script>
 
 <script>
